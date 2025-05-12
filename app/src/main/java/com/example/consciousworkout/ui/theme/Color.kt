@@ -18,5 +18,8 @@ val BackgroundMainScreenGradient = Brush.verticalGradient(  colors = listOf(
     )
 )
 val BackgroundMainScreenProfileCard = Color(0xFF332D2D)
+val BackgroundPhotoProfileCard = Color(0xFF443838)
 val TextColorProfileCard = Color(0xFFF2D6BD)
+val ColorTextBMIResult = Color(0xFFFFFBC9)
+val IconTint = Color(0xFFFAE3C2)
 
