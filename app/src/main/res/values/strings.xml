@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Conscious Workout</string>
+    <string name="app_name">Mindful Workout</string>
+    <string name="list_exercises_screen">Exercises List Screen</string>
+    <string name="profile_screen">Profile</string>
 </resources>
