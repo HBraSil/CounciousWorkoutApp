@@ -2,14 +2,15 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.gms.google-services")
 }
 
 android {
-    namespace = "com.example.consciousworkout"
+    namespace = "com.example.mindfulworkout"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.consciousworkout"
+        applicationId = "com.example.mindfulworkout"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -40,6 +41,18 @@ android {
 }
 
 dependencies {
+
+
+    //FIREBASE DEPENDECIES
+    implementation(platform("com.google.firebase:firebase-bom:33.15.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-firestore")
+
+    //NAVIGATION
+    implementation(libs.androidx.navigation.compose)
+
+
+    implementation("androidx.compose.material:material-icons-extended:1.7.8")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

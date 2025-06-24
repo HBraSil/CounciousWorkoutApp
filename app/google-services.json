@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "485329069493",
+    "project_id": "mindful-workout",
+    "storage_bucket": "mindful-workout.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:485329069493:android:afc8552d17be9e2a6fa5fc",
+        "android_client_info": {
+          "package_name": "com.example.mindfulworkout"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJZMxl9j7VBCRcXxh6fDzEG2-lsCDCa6E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
