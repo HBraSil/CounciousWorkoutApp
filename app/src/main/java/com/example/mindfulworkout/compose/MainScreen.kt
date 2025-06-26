@@ -53,6 +53,7 @@ import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mindfulworkout.components.BaseScaffold
 import com.example.mindfulworkout.components.BoxTextBMI
 import com.example.mindfulworkout.components.ExerciseBox
@@ -66,17 +67,17 @@ import com.example.mindfulworkout.ui.theme.BackgroundPhotoProfileCard
 import com.example.mindfulworkout.ui.theme.RussoOne
 import com.example.mindfulworkout.ui.theme.ShapeTopTextMainScreen
 import com.example.mindfulworkout.ui.theme.TextColorProfileCard
-import com.google.firebase.firestore.FirebaseFirestore
+import com.example.mindfulworkout.viewmodels.MainScreenViewModel
 import kotlin.io.encoding.ExperimentalEncodingApi
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    onClickMenuItem: (Int) -> Unit = {}
+    onClickMenuItem: (Int) -> Unit = {},
+    mainScreenViewModel: MainScreenViewModel = viewModel(factory = MainScreenViewModel.factory)
 ) {
-    var exercises by remember { mutableIntStateOf(0) }
+    var exercises by remember { mutableIntStateOf(0) } // ESTÁ VARIÁVEL TALVEZ EU POSSA TIRAR DO REMEMBER
     val context = LocalContext.current
-    val firestoreDatabase by lazy { FirebaseFirestore.getInstance() }
     var exerciseName by remember { mutableStateOf("") }
     var weight by remember { mutableStateOf("") }
     var repValue by remember { mutableStateOf("") }
@@ -125,36 +126,18 @@ fun MainScreen(
 
                         if (allowed) {
                             try {
-
                                 val workoutInfo = WorkoutInfo(
                                     exerciseName = exerciseName,
                                     weight = weight,
                                     rep = repValue,
                                     set = setValue
                                 )
-
-                                firestoreDatabase.collection("Hilquias")
-                                    .document(exerciseName)
-                                    .set(workoutInfo)
-                                    .addOnSuccessListener{
-                                        saved = true
-                                        Toast.makeText(
-                                            context,
-                                            "Adcionado com sucesso",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
-                                    .addOnFailureListener {
-                                        Toast.makeText(
-                                            context,
-                                            "Tu é gay mano",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
+                                mainScreenViewModel.saveWorkoutInfo(workoutInfo)
+                                saved = true
                             } catch (e: Exception) {
                                 Toast.makeText(
                                     context,
-                                    "Erro ao preparar dados",
+                                    "Erro ao preparar dados. Erro: $e",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -182,6 +165,10 @@ fun MainScreen(
             item { Spacer(modifier = Modifier.height(16.dp)) }
             items(exercises) {
                 ExerciseBox(
+                    weight = "",
+                    set = "",
+                    rep = "",
+                    exerciseName = "",
                     onValueExerciseNameChange = { exerciseName = it },
                     onValueWeightChange = { weight = it },
                     onValueRepChange = { repValue = it },
@@ -339,17 +326,17 @@ fun BodyImcCalc() {
 
         Button(
             onClick = {
-                var imcValue = weight.toDouble() / (height.toDouble() * height.toDouble())
-                val imcFormated = "%.2f".format(imcValue)
-                result = imcFormated.toString()
+                    val imcValue = weight.toDouble() / (height.toDouble() * height.toDouble())
+                    val imcFormated = "%.2f".format(imcValue)
+                    result = imcFormated.toString()
 
-                colorToIMC = if (imcValue > 30.0) {
-                    Red
-                } else if (imcValue < 18.5) {
-                    Yellow
-                } else {
-                    Green
-                }
+                    colorToIMC = if (imcValue > 30.0) {
+                        Red
+                    } else if (imcValue < 18.5) {
+                        Yellow
+                    } else {
+                        Green
+                    }
             },
             modifier = Modifier
                 .padding(top = 4.dp, start = 5.dp, end = 5.dp)

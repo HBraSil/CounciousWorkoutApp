@@ -28,7 +28,6 @@ fun BoxTextBMI(
     readyOnly: Boolean = false,
     enabled: Boolean = true,
 ) {
-
     OutlinedTextField(
         value = value.toString(),
         onValueChange = onValueChange,
@@ -56,6 +55,7 @@ fun BoxTextBMI(
         readOnly = readyOnly
     )
 }
+
 
 @Preview
 @Composable

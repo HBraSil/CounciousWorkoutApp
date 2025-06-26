@@ -1,16 +1,19 @@
 package com.example.mindfulworkout.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Card
@@ -31,6 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.text.font.FontWeight.Companion.W900
@@ -68,17 +72,13 @@ fun BaseScaffold(
                 Text(
                     "Exercises List", modifier = Modifier
                         .padding(16.dp)
-                        .clickable {
-                            onClickMenuItem(R.string.list_exercises_screen)
-                        }
+                        .clickable { onClickMenuItem(R.string.list_exercises_screen) }
                 )
                 HorizontalDivider(color = Black)
                 Text(
                     "Profile", modifier = Modifier
                         .padding(16.dp)
-                        .clickable {
-                            onClickMenuItem(R.string.profile_screen)
-                        }
+                        .clickable { onClickMenuItem(R.string.profile_screen) }
                 )
             }
         }
@@ -90,6 +90,7 @@ fun BaseScaffold(
             containerColor = Color.Transparent,
             topBar = {
                 TopAppBar(
+                    modifier = Modifier.height(80.dp),
                     navigationIcon = {
                         IconButton(
                             onClick = {
@@ -109,15 +110,19 @@ fun BaseScaffold(
                     },
                     title = {
                         Card(
-                            onClick = {
-                                onClickCardTitle()
-                            },
+                            onClick = { onClickCardTitle() },
                             modifier = Modifier
                                 .padding(top = 15.dp)
                                 .fillMaxWidth()
                                 .wrapContentWidth(Alignment.CenterHorizontally)
-                                .size(width = 200.dp, height = 45.dp),
+                                .size(width = 200.dp, height = 45.dp)
+                                .shadow(
+                                    elevation = 15.dp,
+                                    shape = RoundedCornerShape(5.dp),
+                                    spotColor = Color.Red.copy(alpha = 1.2f)
+                                ), // corpo do card,
                             colors = CardDefaults.cardColors(BackgroundTopBarElements),
+                            elevation = CardDefaults.cardElevation(25.dp)
                         ) {
                             Text(
                                 modifier = Modifier

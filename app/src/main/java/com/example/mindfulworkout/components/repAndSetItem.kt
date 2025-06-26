@@ -36,10 +36,11 @@ import com.example.mindfulworkout.ui.theme.CircleShape
 
 @Composable
 fun RepAndSetItem(
+    quantSets: String,
     label: String,
     onValueRepsAndSetsChange: (String) -> Unit = { "" }
 ) {
-    var quantSets by remember { mutableStateOf("") }
+    var quantSets by remember { mutableStateOf(quantSets) }
     onValueRepsAndSetsChange(quantSets)
 
     Row(
@@ -130,5 +131,5 @@ fun RepAndSetItem(
 @Preview(showBackground = true)
 @Composable
 private fun SetAnpreview() {
-    RepAndSetItem("Sets")
+   // RepAndSetItem("Sets")
 }

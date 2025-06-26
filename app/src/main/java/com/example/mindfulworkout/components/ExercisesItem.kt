@@ -1,6 +1,5 @@
 package com.example.mindfulworkout.components
 
-import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -44,16 +43,20 @@ import com.example.mindfulworkout.ui.theme.backgroundColorCardExercises
 
 @Composable
 fun ExerciseBox(
+    weight: String,
+    set: String,
+    rep: String,
+    exerciseName: String,
     onValueWeightChange: (String) -> Unit = {},
     onValueRepChange: (String) -> Unit = {},
     onValueSetChange: (String) -> Unit = {},
     onValueExerciseNameChange: (String) -> Unit = {},
     selectedButton: (Boolean) -> Unit = { false }
 ) {
-    var weight by remember { mutableStateOf("") }
-    var set by remember { mutableStateOf("") }
-    var rep by remember { mutableStateOf("") }
-    var exerciseName by remember { mutableStateOf("") }
+    var weight by remember { mutableStateOf(weight) }
+    var set by remember { mutableStateOf(set) }
+    var rep by remember { mutableStateOf(rep) }
+    var exerciseName by remember { mutableStateOf(exerciseName) }
     var checked by remember { mutableStateOf(false) }
 
 
@@ -164,22 +167,23 @@ fun ExerciseBox(
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
 
-                RepAndSetItem("Reps") {
+                RepAndSetItem(rep, "Reps") {
                     rep = it
                     onValueRepChange(rep)
                 }
-                RepAndSetItem("Sets") {
+                RepAndSetItem(set,"Sets") {
                     set = it
                     onValueSetChange(set)
                 }
-
             }
         }
     }
 }
 
+
+
 @Preview
 @Composable
 fun ExerciseItemPreview() {
-    ExerciseBox()
+    //ExerciseBox()
 }
