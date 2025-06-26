@@ -14,7 +14,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ConsciousWorkoutTheme {
-               // MainScreen(User("John Doe", 25, Gender.MALE, ""))
                 MindWorkoutNavHost()
             }
         }

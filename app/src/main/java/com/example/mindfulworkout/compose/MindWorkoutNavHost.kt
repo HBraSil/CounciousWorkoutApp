@@ -5,7 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.mindfulworkout.R
-import com.example.mindfulworkout.components.BaseScaffold
+
 
 enum class AppRouter(val route: String) {
     EXERCISES_TRACK_LIST("ExercisesTrackList"),
@@ -31,7 +31,12 @@ fun MindWorkoutNavHost() {
 
         composable(route = AppRouter.EXERCISES_TRACK_LIST.route) {
             ExerciseTrackListScreen {
-                navController.navigate(AppRouter.MAIN_SCREEN.route)
+                navController.navigate(AppRouter.MAIN_SCREEN.route) {
+                    popUpTo(AppRouter.EXERCISES_TRACK_LIST.route) {
+                        inclusive = true
+                    }
+                    launchSingleTop = true
+                }
             }
         }
     }

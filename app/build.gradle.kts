@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("com.google.gms.google-services")
+    id("kotlin-kapt")
 }
 
 android {
@@ -50,6 +51,15 @@ dependencies {
 
     //NAVIGATION
     implementation(libs.androidx.navigation.compose)
+
+
+    //ROOM
+    val roomVersion = "2.7.2"
+    implementation("androidx.room:room-ktx:$roomVersion")
+    implementation("androidx.room:room-runtime:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
+
+
 
 
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
