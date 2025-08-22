@@ -14,14 +14,26 @@ val Pink40 = Color(0xFF7D5260)
 val BackgroundTopBarElements = Color(0xFFC0B8B8)
 val BackgroundMainScreenGradient = Brush.verticalGradient(  colors = listOf(
         Color(0xFF131111),  // Base
-        Color(0xFF593E25) // Topo
+        Color(0xFF8F6F4D) // Topo
     )
 )
 val BackgroundMainScreenProfileCard = Color(0xFF332D2D)
 val BackgroundPhotoProfileCard = Color(0xFF443838)
 val TextColorProfileCard = Color(0xFFF2D6BD)
-val backgroundColorCardExercises = Color(0xFF7C6C5B)
-val backgroundColorElementsCardExercisesDarker = Color(0xFF362714)
 val contentNavigationDrawerSheet = Color(0xFFE7D7C6)
 val backgroundNavigationDrawerSheet = Color(0xFF1C1919)
+
+
+val DoubleButtonsListScreen = Color(0xC4A6662E)
+val DarkDoubleButtonsListScreen = Color(0xD83F1C13)
+
+
+
+//  EXERCISES CARD COLORS
+val BackgroundColorCardExercises = Color(0xFF62472A)
+val BackgroundColorElementsCardExercisesDarker = Color(0xFF2C2A25)
+val ButtonPlusMinusCard = Color(0xFF3F2A1C)
+
+val LightbackgroundColorCardExercises = Color(0xFFAB947C)
+
 

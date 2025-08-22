@@ -28,44 +28,45 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Black
-import androidx.compose.ui.graphics.Color.Companion.DarkGray
-import androidx.compose.ui.graphics.Color.Companion.Gray
+import androidx.compose.ui.graphics.Color.Companion.Transparent
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight.Companion.W300
 import androidx.compose.ui.text.font.FontWeight.Companion.W900
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mindfulworkout.ui.theme.CircleShape
-import com.example.mindfulworkout.ui.theme.backgroundColorElementsCardExercisesDarker
-import com.example.mindfulworkout.ui.theme.backgroundColorCardExercises
+import com.example.mindfulworkout.ui.theme.BackgroundColorElementsCardExercisesDarker
+import com.example.mindfulworkout.ui.theme.BackgroundColorCardExercises
+import com.example.mindfulworkout.ui.theme.LightbackgroundColorCardExercises
 
 
 @Composable
 fun ExerciseBox(
-    weight: String,
-    set: String,
-    rep: String,
-    exerciseName: String,
-    onValueWeightChange: (String) -> Unit = {},
-    onValueRepChange: (String) -> Unit = {},
-    onValueSetChange: (String) -> Unit = {},
-    onValueExerciseNameChange: (String) -> Unit = {},
+    readOnly: Boolean = false,
+    onValueWeightChange: (String) -> String? = {""},
+    onValueRepChange: (String) -> String? = {""},
+    onValueSetChange: (String) -> String? = {""},
+    onValueExerciseNameChange: (String) -> String? = {""},
     selectedButton: (Boolean) -> Unit = { false }
 ) {
-    var weight by remember { mutableStateOf(weight) }
-    var set by remember { mutableStateOf(set) }
-    var rep by remember { mutableStateOf(rep) }
-    var exerciseName by remember { mutableStateOf(exerciseName) }
+    var weight by remember { mutableStateOf(onValueWeightChange("")!!) }
+    var set by remember { mutableStateOf(onValueSetChange("")!!) }
+    var rep by remember { mutableStateOf(onValueRepChange("")!!) }
+    var exerciseName by remember { mutableStateOf(onValueExerciseNameChange("")!!) }
     var checked by remember { mutableStateOf(false) }
+    var onlyForRead by remember { mutableStateOf(readOnly) }
 
 
     Card(
         modifier = Modifier.padding(4.dp),
-        colors = CardDefaults.cardColors(backgroundColorCardExercises),
-        /*elevation = CardDefaults.cardElevation(
-            defaultElevation = .dp
-        )*/
+        colors =
+            if (readOnly)
+                CardDefaults.cardColors(BackgroundColorCardExercises)
+            else
+                CardDefaults.cardColors(LightbackgroundColorCardExercises)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -77,13 +78,12 @@ fun ExerciseBox(
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-
                 Box(
                     modifier = Modifier
                         .padding(top = 8.dp)
                         .size(24.dp)
                         .border(2.dp, Black, shape = CircleShape)
-                        .clickable {
+                        .clickable(enabled = !readOnly){
                             checked = !checked
                             selectedButton(checked)
                         },
@@ -103,14 +103,14 @@ fun ExerciseBox(
                     value = exerciseName,
                     onValueChange = {
                         exerciseName = it
-                        onValueExerciseNameChange(exerciseName)
+                        onValueExerciseNameChange(it)
                     },
                     label = {
                         Text(
                             text = "Exercise name",
                             fontSize = 12.sp,
-                            color = DarkGray,
-                            fontWeight = W900
+                            color = White,
+                            fontWeight = W300
                         )
                     },
                     modifier = Modifier
@@ -119,29 +119,40 @@ fun ExerciseBox(
                         .align(Alignment.CenterVertically),
                     textStyle = TextStyle(
                         fontSize = 14.sp,
-                        color = Black,
+                        color = White,
                         fontWeight = W900
                     ),
                     singleLine = true,
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = backgroundColorElementsCardExercisesDarker,
-                        unfocusedContainerColor = backgroundColorCardExercises
-                    ),
-                    maxLines = 1
+                    colors =
+                        if (onlyForRead) {
+                            TextFieldDefaults.colors(
+                                focusedContainerColor = BackgroundColorElementsCardExercisesDarker,
+                                unfocusedContainerColor = Transparent,
+                                focusedIndicatorColor = Black
+                            )
+                        } else {
+                            TextFieldDefaults.colors(
+                                focusedContainerColor = LightbackgroundColorCardExercises,
+                                unfocusedContainerColor = Transparent,
+                                focusedIndicatorColor = Black
+                            )
+                        },
+                    maxLines = 1,
+                    readOnly = readOnly
                 )
 
                 OutlinedTextField(
                     value = weight,
                     onValueChange = {
-                        onValueWeightChange(it)
                         weight = it
+                        onValueWeightChange(it)
                     },
                     label = {
                         Text(
                             text = "Weight ",
-                            fontSize = 14.sp,
-                            color = Gray,
-                            fontWeight = W900
+                            fontSize = 12.sp,
+                            color = White,
+                            fontWeight = W300
                         )
                     },
                     //shape = RoundedCornerShape(12.dp),
@@ -149,12 +160,16 @@ fun ExerciseBox(
                         .width(110.dp)
                         .align(Alignment.CenterVertically),
                     colors = TextFieldDefaults.colors(
-                        focusedIndicatorColor = Black,
+                        focusedIndicatorColor = White,
+                        focusedContainerColor = BackgroundColorElementsCardExercisesDarker,
+                        unfocusedContainerColor = BackgroundColorElementsCardExercisesDarker,
+
                     ),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number
                     ),
-                    maxLines = 1
+                    maxLines = 1,
+                    readOnly = readOnly
                 )
             }
 
@@ -166,12 +181,11 @@ fun ExerciseBox(
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-
-                RepAndSetItem(rep, "Reps") {
+                RepAndSetItem(rep, "Reps", readOnly) {
                     rep = it
                     onValueRepChange(rep)
                 }
-                RepAndSetItem(set,"Sets") {
+                RepAndSetItem(set,"Sets", readOnly) {
                     set = it
                     onValueSetChange(set)
                 }

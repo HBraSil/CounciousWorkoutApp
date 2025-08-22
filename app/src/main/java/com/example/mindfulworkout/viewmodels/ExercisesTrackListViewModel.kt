@@ -22,9 +22,26 @@ class ExercisesTrackListViewModel(private val repository: WorkoutInfoRepository)
         viewModelScope.launch {
             val lista = repository.getExercises()
             _exercises.value = lista
-            Log.i("TAG", "lista: ${lista[0].exerciseName} ${lista[0].weight} ${lista[0].rep} ${lista[0].set}")
         }
     }
+
+    fun deleteExercise(exerciseName: String) {
+        viewModelScope.launch {
+            repository.deleteExercise(exerciseName)
+            val lista = repository.getExercises()
+            _exercises.value = lista
+        }
+    }
+
+    fun updateExercise(exerciseName: String) {
+        viewModelScope.launch {
+            repository.updateExercise(exerciseName)
+            val lista = repository.getExercises()
+            _exercises.value = lista
+        }
+    }
+
+
 
     companion object {
         val factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {

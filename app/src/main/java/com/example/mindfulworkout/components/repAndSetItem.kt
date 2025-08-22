@@ -22,22 +22,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Gray
-import androidx.compose.ui.text.font.FontWeight.Companion.W600
+import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.text.font.FontWeight.Companion.W300
 import androidx.compose.ui.text.font.FontWeight.Companion.W900
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mindfulworkout.ui.theme.CircleShape
-
+import com.example.mindfulworkout.ui.theme.BackgroundColorElementsCardExercisesDarker
+import com.example.mindfulworkout.ui.theme.BackgroundTopBarElements
+import com.example.mindfulworkout.ui.theme.ButtonPlusMinusCard
 
 
 @Composable
 fun RepAndSetItem(
     quantSets: String,
     label: String,
+    readOnly: Boolean,
     onValueRepsAndSetsChange: (String) -> Unit = { "" }
 ) {
     var quantSets by remember { mutableStateOf(quantSets) }
@@ -57,14 +59,14 @@ fun RepAndSetItem(
                 }
             },
             shape = CircleShape,
-            modifier = Modifier
-                .size(35.dp)
+            modifier = Modifier.size(35.dp),
+            containerColor = ButtonPlusMinusCard
         ) {
             Icon(
                 imageVector = Icons.Default.Remove,
                 contentDescription = "Decrementar Sets",
                 modifier = Modifier.size(35.dp),
-                tint = Color.Black
+                tint = BackgroundTopBarElements
             )
         }
 
@@ -79,8 +81,8 @@ fun RepAndSetItem(
                 Text(
                     text = label,
                     fontSize = 11.sp,
-                    color = Gray,
-                    fontWeight = W600,
+                    color = White,
+                    fontWeight = W300,
                     maxLines = 1
                 )
             },
@@ -91,17 +93,19 @@ fun RepAndSetItem(
                 .align(Alignment.Top),
             textStyle = androidx.compose.ui.text.TextStyle(
                 fontSize = 14.sp,
-                color = Gray,
                 fontWeight = W900
             ),
             singleLine = true,
             colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White
+                focusedIndicatorColor = White,
+                focusedContainerColor = BackgroundColorElementsCardExercisesDarker,
+                unfocusedContainerColor = BackgroundColorElementsCardExercisesDarker,
+                focusedTextColor = White
             ),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number
-            )
+            ),
+            readOnly = readOnly
         )
 
 
@@ -113,14 +117,14 @@ fun RepAndSetItem(
                 quantSets = result.toString()
             },
             shape = CircleShape,
-            modifier = Modifier
-                .size(35.dp)
+            modifier = Modifier.size(35.dp),
+            containerColor =  ButtonPlusMinusCard,
         ) {
             Icon(
                 imageVector = Icons.Default.Add,
                 contentDescription = "Decrementar Sets",
                 modifier = Modifier.size(35.dp),
-                tint = Color.Black
+                tint = BackgroundTopBarElements
             )
         }
     }
