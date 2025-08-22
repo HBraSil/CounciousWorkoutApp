@@ -1,6 +1,5 @@
 package com.example.mindfulworkout.compose
 
-import android.util.Log
 import android.widget.Toast
 import com.example.mindfulworkout.R
 import androidx.compose.foundation.background
@@ -21,6 +20,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.sharp.Info
 import androidx.compose.material.icons.sharp.Person
 import androidx.compose.material3.Button
@@ -57,6 +59,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mindfulworkout.components.BaseScaffold
 import com.example.mindfulworkout.components.BoxTextBMI
 import com.example.mindfulworkout.components.ExerciseBox
+import com.example.mindfulworkout.funcionalities.MinFabItem
 import com.example.mindfulworkout.funcionalities.MultiFloatingButton
 import com.example.mindfulworkout.model.Gender
 import com.example.mindfulworkout.model.User
@@ -70,11 +73,12 @@ import com.example.mindfulworkout.ui.theme.TextColorProfileCard
 import com.example.mindfulworkout.viewmodels.MainScreenViewModel
 import kotlin.io.encoding.ExperimentalEncodingApi
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     onClickMenuItem: (Int) -> Unit = {},
-    mainScreenViewModel: MainScreenViewModel = viewModel(factory = MainScreenViewModel.factory)
+    mainScreenViewModel: MainScreenViewModel = viewModel(factory = MainScreenViewModel.factory),
 ) {
     var exercises by remember { mutableIntStateOf(0) } // ESTÁ VARIÁVEL TALVEZ EU POSSA TIRAR DO REMEMBER
     val context = LocalContext.current
@@ -85,8 +89,9 @@ fun MainScreen(
     var buttonChecked by remember { mutableStateOf(false) }
     var saved = false
 
+
     BaseScaffold(
-        onClickMenuItem = onClickMenuItem,
+        onClickMenuItemBaseSca = onClickMenuItem,
         actions = {
             IconButton(
                 onClick = {},
@@ -100,7 +105,13 @@ fun MainScreen(
             }
         },
         floatingActionButton = {
-            MultiFloatingButton {
+            MultiFloatingButton(
+                list = listOf(
+                    MinFabItem(Icons.Default.Delete, "Delete"),
+                    MinFabItem(Icons.Default.Done, "Save"),
+                    MinFabItem(Icons.Default.Add, "Add"),
+                )
+            ) {
                 when (it) {
                     "Add" -> {
                         if (saved || exercises == 0) {
@@ -114,8 +125,14 @@ fun MainScreen(
                             ).show()
                         }
                     }
+
                     "Delete" -> {}
                     else -> {
+                        println("$buttonChecked,\n" +
+                                "                            $exerciseName,\n" +
+                                "                            $weight,\n" +
+                                "                            $repValue,\n" +
+                                "                            $setValue")
                         val allowed = validateFields(
                             buttonChecked,
                             exerciseName,
@@ -123,7 +140,7 @@ fun MainScreen(
                             repValue,
                             setValue
                         )
-
+                        println(allowed)
                         if (allowed) {
                             try {
                                 val workoutInfo = WorkoutInfo(
@@ -152,7 +169,7 @@ fun MainScreen(
                 }
             }
         }
-    ){
+    ) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -165,15 +182,26 @@ fun MainScreen(
             item { Spacer(modifier = Modifier.height(16.dp)) }
             items(exercises) {
                 ExerciseBox(
-                    weight = "",
-                    set = "",
-                    rep = "",
-                    exerciseName = "",
-                    onValueExerciseNameChange = { exerciseName = it },
-                    onValueWeightChange = { weight = it },
-                    onValueRepChange = { repValue = it },
-                    onValueSetChange = { setValue = it },
-                    selectedButton = { buttonChecked = it }
+                    onValueExerciseNameChange = {
+                        exerciseName = it
+                        ""
+                    },
+                    onValueWeightChange = {
+                        weight = it
+                        ""
+                    },
+                    onValueRepChange = {
+                        repValue = it
+                        ""
+                    },
+                    onValueSetChange = {
+                        setValue = it
+                        ""
+                    },
+                    selectedButton = {
+                        buttonChecked = it
+                        ""
+                    }
                 )
             }
         }
@@ -319,24 +347,23 @@ fun BodyImcCalc() {
                 .weight(1f)
                 .onFocusChanged {
                     isWeightFocused = it.isFocused
-                    Log.i("TAG", "Weight: $weight")
                 },
         )
 
 
         Button(
             onClick = {
-                    val imcValue = weight.toDouble() / (height.toDouble() * height.toDouble())
-                    val imcFormated = "%.2f".format(imcValue)
-                    result = imcFormated.toString()
+                val imcValue = weight.toDouble() / (height.toDouble() * height.toDouble())
+                val imcFormated = "%.2f".format(imcValue)
+                result = imcFormated.toString()
 
-                    colorToIMC = if (imcValue > 30.0) {
-                        Red
-                    } else if (imcValue < 18.5) {
-                        Yellow
-                    } else {
-                        Green
-                    }
+                colorToIMC = if (imcValue > 30.0) {
+                    Red
+                } else if (imcValue < 18.5) {
+                    Yellow
+                } else {
+                    Green
+                }
             },
             modifier = Modifier
                 .padding(top = 4.dp, start = 5.dp, end = 5.dp)

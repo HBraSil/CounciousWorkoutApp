@@ -7,9 +7,18 @@ class WorkoutInfoRepository(private val exerciseDao: ExerciseDao) {
         exerciseDao.insert(exercise)
     }
 
+    suspend fun deleteExercise(exerciseName: String) {
+        exerciseDao.deleteExercise(exerciseName)
+    }
+
     suspend fun getExercises(): List<WorkoutInfo> {
         return exerciseDao.getExercisesInfo()
     }
+
+    suspend fun updateExercise(exerciseName: String) {
+        exerciseDao.updateExercise(exerciseName)
+    }
+
 
     companion object {
         private var instance: WorkoutInfoRepository? = null

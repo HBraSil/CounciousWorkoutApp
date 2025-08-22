@@ -12,4 +12,18 @@ interface ExerciseDao {
 
     @Query("SELECT * FROM workout_table")  // O ERRO PODE ESTAR AQUI
     suspend fun getExercisesInfo(): List<WorkoutInfo>
+
+    @Query("SELECT * FROM workout_table WHERE exerciseName = :exerciseName")
+    suspend fun getExerciseInfo(exerciseName: String): WorkoutInfo
+
+    @Query("DELETE FROM workout_table")
+    suspend fun deleteAll()
+
+    @Query("DELETE FROM workout_table WHERE exerciseName = :exerciseName")
+    suspend fun deleteExercise(exerciseName: String)
+
+    @Query("UPDATE workout_table SET exerciseName = :exerciseName WHERE exerciseName = :exerciseName")
+    suspend fun updateExercise(exerciseName: String)
+
+
 }

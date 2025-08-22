@@ -26,6 +26,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Update
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -50,13 +51,9 @@ data class MinFabItem(
 
 
 @Composable
-fun MultiFloatingButton(onClick: (String) -> Unit) {
+fun MultiFloatingButton(list: List<MinFabItem>, onClick: (String) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
-    val list = listOf(
-        MinFabItem(Icons.Default.Delete, "Delete"),
-        MinFabItem(Icons.Default.Done, "Save"),
-        MinFabItem(Icons.Default.Add, "Add")
-    )
+
 
     Column(horizontalAlignment = Alignment.End) {
         AnimatedVisibility(
@@ -97,7 +94,6 @@ fun MultiFloatingButton(onClick: (String) -> Unit) {
 
 @Composable
 fun MinFab(item: MinFabItem, onClick: (String) -> Unit = {}) {
-
     Row(
         verticalAlignment = Alignment.CenterVertically,
     ) {

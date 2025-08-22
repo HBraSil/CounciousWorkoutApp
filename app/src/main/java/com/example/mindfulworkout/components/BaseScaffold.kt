@@ -1,7 +1,6 @@
 package com.example.mindfulworkout.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
@@ -50,14 +49,13 @@ import kotlinx.coroutines.launch
 @Composable
 fun BaseScaffold(
     onClickCardTitle: () -> Unit = {},
-    onClickMenuItem: (Int) -> Unit = {},
+    onClickMenuItemBaseSca: (Int) -> Unit = {},
     floatingActionButton: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
     content: @Composable (PaddingValues) -> Unit = {}
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -70,15 +68,17 @@ fun BaseScaffold(
                 Text("Menu", modifier = Modifier.padding(16.dp))
                 HorizontalDivider(thickness = 6.dp, color = Black)
                 Text(
-                    "Exercises List", modifier = Modifier
+                    text = "Exercises List",
+                    modifier = Modifier
+                        .clickable { onClickMenuItemBaseSca(R.string.list_exercises_screen) }
                         .padding(16.dp)
-                        .clickable { onClickMenuItem(R.string.list_exercises_screen) }
                 )
                 HorizontalDivider(color = Black)
                 Text(
-                    "Profile", modifier = Modifier
+                    text = "Profile",
+                    modifier = Modifier
+                        .clickable { onClickMenuItemBaseSca(R.string.profile_screen) }
                         .padding(16.dp)
-                        .clickable { onClickMenuItem(R.string.profile_screen) }
                 )
             }
         }
@@ -98,8 +98,7 @@ fun BaseScaffold(
                                     drawerState.open()
                                 }
                             },
-                            modifier = Modifier
-                                .padding(start = 15.dp, top = 15.dp)
+                            modifier = Modifier.padding(start = 15.dp, top = 15.dp)
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Menu,
@@ -110,7 +109,7 @@ fun BaseScaffold(
                     },
                     title = {
                         Card(
-                            onClick = { onClickCardTitle() },
+                            onClick = onClickCardTitle,
                             modifier = Modifier
                                 .padding(top = 15.dp)
                                 .fillMaxWidth()
@@ -120,7 +119,7 @@ fun BaseScaffold(
                                     elevation = 15.dp,
                                     shape = RoundedCornerShape(5.dp),
                                     spotColor = Color.Red.copy(alpha = 1.2f)
-                                ), // corpo do card,
+                                ),
                             colors = CardDefaults.cardColors(BackgroundTopBarElements),
                             elevation = CardDefaults.cardElevation(25.dp)
                         ) {

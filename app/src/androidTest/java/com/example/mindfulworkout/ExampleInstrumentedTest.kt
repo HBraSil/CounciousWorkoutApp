@@ -9,7 +9,7 @@ import org.junit.runner.RunWith
 import org.junit.Assert.*
 
 /**
- * Instrumented backgroundColorCardExercises, which will execute on an Android device.
+ * Instrumented BackgroundColorCardExercises, which will execute on an Android device.
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
@@ -17,7 +17,7 @@ import org.junit.Assert.*
 class ExampleInstrumentedTest {
     @Test
     fun useAppContext() {
-        // Context of the app under backgroundColorCardExercises.
+        // Context of the app under BackgroundColorCardExercises.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.example.consciousworkout", appContext.packageName)
     }
